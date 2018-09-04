@@ -6,6 +6,9 @@ import (
 	"strings"
 )
 
+// maxInt is the maximum 32 bit integer value
+const maxInt = int((^uint(0)) >> 1)
+
 // Votes is a 2d slice of strings. The first dimension
 // is each voter and the second is their ranked choices
 // where increasing index is a lower priority (0 = first choice, 1
@@ -60,7 +63,8 @@ func RunElection(votes Votes) ([]string, error) {
 		// if there is no winner, eliminate the lowest vote getters
 		// first figure out who to eliminate
 		toEliminate := make([]string, 0)
-		eliminationCount := int((^uint(0)) >> 1)
+		// set eliminationCount to the maximum 32 bit integer
+		eliminationCount := maxInt
 		for candidate, numVotes := range resultMap {
 			// if it's less than, it's the new person to eliminate,
 			// otherwise, it's tied for lowest, and should be appended
